@@ -1,0 +1,22 @@
+{
+  "name": "wishlist",
+  "version": "1.0.0",
+  "workspaces": [
+    "client",
+    "api"
+  ],
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.16.1",
+  "type": "module",
+  "dependencies": {
+    "eslint": "^9.39.2",
+    "prettier": "^3.8.1"
+  }
+}
