@@ -2,7 +2,14 @@ import { useEffect, useState } from "react";
 import "./App.css";
 
 function App() {
-  const [items, setItems] = useState<any | null>(0);
+  const [items, setItems] = useState<{
+    id: string;
+    name: string;
+    description: string;
+    link: string;
+    photoLink: string;
+  } | null>(null);
+  console.log("asd");
 
   useEffect(() => {
     async function getItems() {

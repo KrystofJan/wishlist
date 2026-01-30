@@ -11,6 +11,9 @@
       tailwindcss
       tailwindcss-language-server
       sqlite
+      python3
+      python3Packages.setuptools
+      pkg-config
     ];
     shellHook = ''
       export NPM_CONFIG_PREFIX="$HOME/.npm-global"

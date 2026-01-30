@@ -5,7 +5,7 @@ export const databaseProviders = [
     provide: 'DATA_SOURCE',
     useFactory: async () => {
       const dataSource = new DataSource({
-        type: 'sqlite',
+        type: 'better-sqlite3',
         database: '../data/dev.sqlite',
         entities: [__dirname + '/../**/*.entity{.ts,.js}'],
         synchronize: true,
