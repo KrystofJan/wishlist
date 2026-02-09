@@ -1,4 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Category } from 'src/category/category.entity';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToMany } from 'typeorm';
 
 @Entity()
 export class Item {
@@ -16,4 +17,7 @@ export class Item {
 
   @Column('text')
   photoLink: string;
+
+  @ManyToMany(() => Category, (cat) => cat.items)
+  categories: Category[];
 }
