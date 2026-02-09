@@ -2,4 +2,4 @@
 .pnpm-store/
 .env
 
-./api/data/dev.sqlite
+/api/data/dev.sqlite
