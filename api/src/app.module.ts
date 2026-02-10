@@ -5,6 +5,8 @@ import config from './config/config';
 import { CategoryModule } from './category/category.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { dataSourceSettings } from 'typeorm.config';
+import { AuthModule } from '@thallesp/nestjs-better-auth';
+import { auth } from './lib/auth';
 
 @Module({
   imports: [
@@ -16,6 +18,7 @@ import { dataSourceSettings } from 'typeorm.config';
       cache: true,
     }),
     TypeOrmModule.forRoot(dataSourceSettings),
+    AuthModule.forRoot({ auth, disableGlobalAuthGuard: true }),
   ],
 })
 export class AppModule {}

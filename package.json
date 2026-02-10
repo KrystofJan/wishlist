@@ -16,7 +16,6 @@
   "author": "",
   "license": "ISC",
   "packageManager": "pnpm@10.16.1",
-  "type": "module",
   "dependencies": {
     "eslint-plugin-react-hooks": "^7.0.1",
     "prettier": "^3.8.1",

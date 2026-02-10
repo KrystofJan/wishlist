@@ -1,6 +1,7 @@
-import { Controller, Post, Body, Get } from '@nestjs/common';
+import { Controller, Post, Body, Get, UseGuards } from '@nestjs/common';
 import { CategoryService } from './category.service';
 import { CreateCategoryDto } from './dto/create-category.dto';
+import { AuthGuard } from '@thallesp/nestjs-better-auth';
 
 @Controller('categories')
 export class CategoriesController {
@@ -12,6 +13,7 @@ export class CategoriesController {
   }
 
   @Get()
+  @UseGuards(AuthGuard)
   getAll() {
     return this.categoryService.findAll();
   }
