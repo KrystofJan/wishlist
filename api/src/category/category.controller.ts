@@ -1,9 +1,10 @@
 import { Controller, Post, Body, Get, UseGuards } from '@nestjs/common';
 import { CategoryService } from './category.service';
 import { CreateCategoryDto } from './dto/create-category.dto';
-import { AuthGuard } from '@thallesp/nestjs-better-auth';
+import { JWTGuard } from 'src/auth/jwt.guard';
 
 @Controller('categories')
+@UseGuards(JWTGuard)
 export class CategoriesController {
   constructor(private readonly categoryService: CategoryService) {}
 
@@ -13,7 +14,6 @@ export class CategoriesController {
   }
 
   @Get()
-  @UseGuards(AuthGuard)
   getAll() {
     return this.categoryService.findAll();
   }
