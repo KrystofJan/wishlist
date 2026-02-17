@@ -7,9 +7,13 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { dataSourceSettings } from 'typeorm.config';
 import { AuthModule } from '@thallesp/nestjs-better-auth';
 import { auth } from './lib/auth';
+import { JWTModule } from './auth/jwt.module';
+import { APP_GUARD } from '@nestjs/core';
+import { JWTGuard } from './auth/jwt.guard';
 
 @Module({
   imports: [
+    JWTModule,
     ItemModule,
     CategoryModule,
     ConfigModule.forRoot({
@@ -19,6 +23,12 @@ import { auth } from './lib/auth';
     }),
     TypeOrmModule.forRoot(dataSourceSettings),
     AuthModule.forRoot({ auth, disableGlobalAuthGuard: true }),
+  ],
+  providers: [
+    {
+      provide: APP_GUARD,
+      useClass: JWTGuard,
+    },
   ],
 })
 export class AppModule {}
