@@ -1,6 +1,7 @@
 import { Test } from '@nestjs/testing';
 import { ItemsController } from './items.controller';
 import { ItemService } from './items.service';
+import { Item } from './items.entity';
 
 describe('ItemsController', () => {
   let controller: ItemsController;
@@ -30,7 +31,7 @@ describe('ItemsController', () => {
       photoLink: 'https://img.com/a.png',
     };
 
-    const created = { id: 1, ...dto };
+    const created: Item = { id: 1, categories: [], ...dto };
 
     service.create.mockResolvedValue(created);
 
@@ -40,7 +41,14 @@ describe('ItemsController', () => {
 
   it('getAll returns items', async () => {
     const items = [
-      { id: 1, name: 'A', description: 'D', link: 'L', photoLink: 'P' },
+      {
+        id: 1,
+        name: 'A',
+        description: 'D',
+        link: 'L',
+        photoLink: 'P',
+        categories: [],
+      },
     ];
 
     service.findAll.mockResolvedValue(items);

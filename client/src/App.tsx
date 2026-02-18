@@ -32,7 +32,7 @@ function App() {
       }
     }
     getItems();
-  }, [items]);
+  }, []);
 
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
 
@@ -44,7 +44,7 @@ function App() {
       setIsAuthenticated(authenticated);
     }
     checkAuth();
-  }, [isAuthenticated]);
+  }, []);
 
   useEffect(() => {
     async function getCategories() {
@@ -54,15 +54,13 @@ function App() {
       }
     }
     getCategories();
-  }, [category]);
+  }, []);
 
   return (
     <div>
       <pre>{items && JSON.stringify(items, null, 4)}</pre>
       <h1>login</h1>
-      {isAuthenticated && (
-        <pre>{category && JSON.stringify(category, null, 4)}</pre>
-      )}
+      {category && <pre>{category && JSON.stringify(category, null, 4)}</pre>}
 
       {isAuthenticated && JSON.stringify({ token: jwt, valid: true })}
       <Login

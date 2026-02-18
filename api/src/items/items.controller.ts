@@ -8,13 +8,12 @@ export class ItemsController {
   constructor(private readonly itemsService: ItemService) {}
 
   @Post()
-  @Public()
   create(@Body() createItemDto: CreateItemDto) {
     return this.itemsService.create(createItemDto);
   }
 
   @Get()
-  @Public()
+  // @Public()
   getAll() {
     return this.itemsService.findAll();
   }

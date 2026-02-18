@@ -1,6 +1,6 @@
 #!/bin/bash
 
-BASE_URL="http://localhost:3000"
+BASE_URL="${BETTER_AUTH_URL:'http://localhost:3000'}"
 echo "Creating categories..."
 curl -X POST $BASE_URL/categories -H "Content-Type: application/json" -d '{"name": "Electronics"}'
 curl -X POST $BASE_URL/categories -H "Content-Type: application/json" -d '{"name": "Books"}'
