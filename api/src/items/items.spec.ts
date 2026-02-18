@@ -31,7 +31,7 @@ describe('ItemsController', () => {
       photoLink: 'https://img.com/a.png',
     };
 
-    const created: Item = { id: 1, categories: [], ...dto };
+    const created: Item = { id: 1, ...dto };
 
     service.create.mockResolvedValue(created);
 

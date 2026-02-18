@@ -5,6 +5,7 @@ import Login from "./pages/login";
 import { client } from "./lib/api-client";
 import { getClientAuth } from "./lib/auth-client-checks";
 import { authClient } from "./lib/auth-client";
+import type { Account } from "better-auth";
 
 type Item = {
   id: string;
@@ -23,6 +24,7 @@ function App() {
 
   const [category, setCategory] = useState<Category[] | null>(null);
   const [jwt, setJwt] = useState<string | undefined>(undefined);
+  const [acc, setAcc] = useState<any | undefined>(undefined);
 
   useEffect(() => {
     async function getItems() {
@@ -38,10 +40,11 @@ function App() {
 
   useEffect(() => {
     async function checkAuth() {
-      const { isAuthenticated: authenticated } = await getClientAuth();
+      const { user, isAuthenticated: authenticated } = await getClientAuth();
       const t = (await authClient.token()).data?.token;
       setJwt(t);
       setIsAuthenticated(authenticated);
+      setAcc(user);
     }
     checkAuth();
   }, []);
@@ -62,7 +65,8 @@ function App() {
       <h1>login</h1>
       {category && <pre>{category && JSON.stringify(category, null, 4)}</pre>}
 
-      {isAuthenticated && JSON.stringify({ token: jwt, valid: true })}
+      {isAuthenticated &&
+        JSON.stringify({ user: acc, token: jwt, valid: true })}
       <Login
         isAuthenticated={isAuthenticated}
         setIsAuthenticated={setIsAuthenticated}

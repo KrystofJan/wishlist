@@ -10,19 +10,21 @@ import { auth } from './lib/auth';
 import { JWTModule } from './auth/jwt.module';
 import { APP_GUARD } from '@nestjs/core';
 import { JWTGuard } from './auth/jwt.guard';
+import { WishlistModule } from './wishlists/wishlists.module';
 
 @Module({
   imports: [
-    JWTModule,
-    ItemModule,
+    AuthModule.forRoot({ auth, disableGlobalAuthGuard: true }),
     CategoryModule,
     ConfigModule.forRoot({
       load: [config],
       envFilePath: '../.env',
       cache: true,
     }),
+    ItemModule,
+    JWTModule,
     TypeOrmModule.forRoot(dataSourceSettings),
-    AuthModule.forRoot({ auth, disableGlobalAuthGuard: true }),
+    WishlistModule,
   ],
   providers: [
     {

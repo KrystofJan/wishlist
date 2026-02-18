@@ -3,4 +3,5 @@ export class CreateItemDto {
   description: string;
   link: string;
   photoLink: string;
+  categories?: number[];
 }

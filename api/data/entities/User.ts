@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryColumn } from 'typeorm';
+import type { Wishlist } from 'src/wishlists/wishlists.entity';
+import { Column, Entity, OneToMany, PrimaryColumn } from 'typeorm';
 
 @Entity('user')
 export class User {
@@ -23,4 +24,6 @@ export class User {
   @Column('date', { name: 'updatedAt' })
   updatedAt!: Date;
 
+  @OneToMany('Wishlist', 'user')
+  wishlists?: Wishlist[];
 }

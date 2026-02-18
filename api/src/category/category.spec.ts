@@ -2,14 +2,16 @@ import { Test } from '@nestjs/testing';
 import { CategoryService } from './category.service';
 import { CategoriesController } from './category.controller';
 import { Category } from './category.entity';
+import { Item } from 'src/items/items.entity';
 
-describe('ItemsController', () => {
+describe('CategoriesController', () => {
   let controller: CategoriesController;
   let service: jest.Mocked<CategoryService>;
 
   const mockItemsService = {
     create: jest.fn(),
     findAll: jest.fn(),
+    findItemsInCategory: jest.fn(),
   };
 
   beforeEach(async () => {
@@ -23,7 +25,7 @@ describe('ItemsController', () => {
     jest.clearAllMocks();
   });
 
-  it('create returns created item', async () => {
+  it('create returns created category', async () => {
     const dto = {
       name: 'A',
     };
@@ -36,7 +38,7 @@ describe('ItemsController', () => {
     expect(service.create).toHaveBeenCalledWith(dto);
   });
 
-  it('getAll returns items', async () => {
+  it('getAll returns categories', async () => {
     const categories = [
       {
         id: 1,
@@ -49,5 +51,22 @@ describe('ItemsController', () => {
 
     await expect(controller.getAll()).resolves.toEqual(categories);
     expect(service.findAll).toHaveBeenCalledTimes(1);
+  });
+
+  it('getCategoryItems returns items of given category', async () => {
+    const items: Item[] = [
+      {
+        id: 1,
+        name: 'A',
+        description: 'D',
+        link: 'L',
+        photoLink: 'P',
+      },
+    ];
+
+    service.findItemsInCategory.mockResolvedValue(items);
+
+    await expect(controller.getItems(1)).resolves.toEqual(items);
+    expect(service.findItemsInCategory).toHaveBeenCalledTimes(1);
   });
 });
