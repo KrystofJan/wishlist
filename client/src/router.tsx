@@ -4,6 +4,7 @@ import Home from "./pages/home";
 import Login from "./pages/login";
 import SignUp from "./pages/signup";
 import { Wishlists } from "./pages/wishlists";
+import { WishlistDetail } from "./pages/wishlist-detail";
 
 type RouterProps = {
   children: ReactNode;
@@ -19,7 +20,7 @@ export function Router({ children }: RouterProps) {
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/wishlists" element={<Wishlists />} />
-          <Route path="/wishlists/:wishlistId" element={<Wishlists />} />
+          <Route path="/wishlists/:id" element={<WishlistDetail />} />
         </Routes>
       </div>
     </BrowserRouter>
