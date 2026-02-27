@@ -14,10 +14,19 @@ export class WishlistService {
     private dataSource: DataSource,
   ) {}
 
-  async findAll(): Promise<Wishlist[]> {
+  async findAll(
+    {
+      includeUser,
+      includeItems,
+    }: {
+      includeUser: boolean;
+      includeItems: boolean;
+    } = { includeUser: false, includeItems: false },
+  ): Promise<Wishlist[]> {
     return this.wishlistRepository.find({
       relations: {
-        user: true,
+        user: includeUser,
+        items: includeItems,
       },
     });
   }
