@@ -1,5 +1,7 @@
+import { Button } from "@/components/ui/button";
 import { authClient } from "../lib/auth-client";
 import { useState } from "react";
+import { Input } from "@/components/ui/input";
 
 export default function SignUp() {
   const [email, setEmail] = useState("");
@@ -38,41 +40,42 @@ export default function SignUp() {
 
   return (
     <form onSubmit={handleSubmit}>
-      <input
-        placeholder="email"
-        value={email}
-        onChange={(event) => setEmail(event.target.value)}
-      />
+      <div className="grid grid-cols-2 gap-4 max-w-max">
+        <Input
+          placeholder="first name"
+          value={firstName}
+          onChange={(event) => setFirstName(event.target.value)}
+        />
 
-      <input
-        placeholder="password"
-        type="password"
-        value={password}
-        onChange={(event) => setPassword(event.target.value)}
-      />
+        <Input
+          placeholder="last name"
+          value={lastName}
+          onChange={(event) => setLastName(event.target.value)}
+        />
 
-      <input
-        placeholder="name"
-        value={name}
-        onChange={(event) => setName(event.target.value)}
-      />
+        <Input
+          placeholder="email"
+          value={email}
+          onChange={(event) => setEmail(event.target.value)}
+        />
 
-      <input
-        placeholder="first name"
-        value={firstName}
-        onChange={(event) => setFirstName(event.target.value)}
-      />
+        <Input
+          placeholder="name"
+          value={name}
+          onChange={(event) => setName(event.target.value)}
+        />
 
-      <input
-        placeholder="last name"
-        value={lastName}
-        onChange={(event) => setLastName(event.target.value)}
-      />
-
+        <Input
+          placeholder="password"
+          type="password"
+          value={password}
+          onChange={(event) => setPassword(event.target.value)}
+          className="col-span-full"
+        />
+        <Button type="submit">Sign up</Button>
+      </div>
       {error}
       {loading}
-
-      <button type="submit">Sign up</button>
     </form>
   );
 }

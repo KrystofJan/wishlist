@@ -1,15 +1,16 @@
-import { BrowserRouter, Route, Routes } from "react-router";
-import Home from "./pages/home";
 import "./App.css";
+import { NavBar } from "./components/navigation";
+import { AuthProvider } from "./lib/providers/auth/auth.provider";
+import { Router } from "./router";
 
 export default function App() {
   return (
     <>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Home />} />
-        </Routes>
-      </BrowserRouter>
+      <AuthProvider>
+        <Router>
+          <NavBar />
+        </Router>
+      </AuthProvider>
     </>
   );
 }

@@ -1,79 +1,57 @@
-import { authClient } from "../lib/auth-client";
-import { useState, type FC } from "react";
+import { useEffect, useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { useAuth } from "@/lib/hooks/useAuth";
 
-type LoginProps = {
-  isAuthenticated: boolean;
-  setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
-};
-
-export default function Login({
-  isAuthenticated,
-  setIsAuthenticated,
-}: LoginProps) {
+export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+
+  const { login, logout, isAuthenticated, error, loading } = useAuth();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setLoading(false);
-    setError("");
-
-    const _result = await authClient.signIn.email(
-      {
-        email,
-        password,
-        callbackURL: "/",
-      },
-      {
-        onSuccess: (_ctx) => {
-          setIsAuthenticated(true);
-        },
-        onRequest: (ctx) => {
-          setLoading(true);
-        },
-        onError: (ctx) => {
-          setError(ctx.error.message);
-        },
-      },
-    );
+    await login(email, password);
   };
 
   if (isAuthenticated) {
     return (
       <div>
         The user is already authenticated
-        <button
+        <Button
           onClick={async () => {
-            await authClient.signOut();
+            await logout();
           }}
         >
           Log out
-        </button>
+        </Button>
       </div>
     );
   }
 
   return (
     <form onSubmit={handleSubmit}>
-      <input
-        placeholder="email"
-        value={email}
-        onChange={(event) => setEmail(event.target.value)}
-      />
+      <div className="flex flex-row gap-4 max-w-max">
+        <Input
+          placeholder="email"
+          value={email}
+          onChange={(event) => setEmail(event.target.value)}
+          className="mb-4"
+        />
 
-      <input
-        placeholder="password"
-        type="password"
-        value={password}
-        onChange={(event) => setPassword(event.target.value)}
-      />
+        <Input
+          placeholder="password"
+          type="password"
+          value={password}
+          onChange={(event) => setPassword(event.target.value)}
+          className="mb-4"
+        />
+      </div>
 
-      {error}
+      {error && error.message}
       {loading}
 
-      <button type="submit">Sign up</button>
+      <Button type="submit">Sign up</Button>
     </form>
   );
 }

@@ -1,9 +1,7 @@
 import { useEffect, useState } from "react";
-import SignUp from "./signup";
-import Login from "./login";
 import { client } from "../lib/api-client";
-import { getClientAuth } from "../lib/auth-client-checks";
-import { authClient } from "../lib/auth-client";
+import { useAuth } from "@/lib/hooks/useAuth";
+import type { Wishlist } from "@/lib/types/wishlist";
 
 type Item = {
   id: string;
@@ -18,34 +16,19 @@ type Category = {
 };
 
 function Home() {
-  const [items, setItems] = useState<Item[] | null>(null);
+  const [wishlists, setWishlists] = useState<Wishlist[] | null>(null);
 
-  const [category, setCategory] = useState<Category[] | null>(null);
-  const [jwt, setJwt] = useState<string | undefined>(undefined);
-  const [acc, setAcc] = useState<any | undefined>(undefined);
+  const { token, user, isAuthenticated } = useAuth();
 
   useEffect(() => {
     async function getItems() {
-      const { data } = await client.request<Item[]>("/items");
+      const { data } = await client.request<Wishlist[]>("/wishlists");
       if (data) {
-        setItems(data);
+        setWishlists(data);
       }
     }
     getItems();
-  }, []);
-
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
-
-  useEffect(() => {
-    async function checkAuth() {
-      const { user, isAuthenticated: authenticated } = await getClientAuth();
-      const t = (await authClient.token()).data?.token;
-      setJwt(t);
-      setIsAuthenticated(authenticated);
-      setAcc(user);
-    }
-    checkAuth();
-  }, []);
+  }, [isAuthenticated]);
 
   useEffect(() => {
     async function getCategories() {
@@ -55,23 +38,19 @@ function Home() {
       }
     }
     getCategories();
-  }, []);
+  }, [isAuthenticated]);
 
   return (
-    <div>
-      <pre>{items && JSON.stringify(items, null, 4)}</pre>
-      <h1>login</h1>
-      {category && <pre>{category && JSON.stringify(category, null, 4)}</pre>}
+    <>
+      <pre className="rounded-2xl bg-black p-4 w-fit max-w-lg">
+        {isAuthenticated &&
+          JSON.stringify({ user, token, valid: true }, null, 2)}
+      </pre>
 
-      {isAuthenticated &&
-        JSON.stringify({ user: acc, token: jwt, valid: true })}
-      <Login
-        isAuthenticated={isAuthenticated}
-        setIsAuthenticated={setIsAuthenticated}
-      />
-      <h1>signup</h1>
-      <SignUp />
-    </div>
+      <pre className="rounded-2xl bg-black p-4 w-fit max-w-lg">
+        {isAuthenticated && JSON.stringify(wishlists, null, 2)}
+      </pre>
+    </>
   );
 }
 

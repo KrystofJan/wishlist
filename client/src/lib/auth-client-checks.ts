@@ -1,8 +1,9 @@
 import { authClient } from "./auth-client";
+import type { UserInfo } from "./contexts";
 
 type AuthSessionResponse =
   | { user: null; token: null; isAuthenticated: false; error: Error }
-  | { user: any; token: string; isAuthenticated: true; error: null };
+  | { user: UserInfo; token: string; isAuthenticated: true; error: null };
 
 export async function getClientAuth(): Promise<AuthSessionResponse> {
   try {

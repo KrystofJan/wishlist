@@ -29,6 +29,10 @@ class ApiClient {
     return true;
   }
 
+  expireToken() {
+    this.token = null;
+  }
+
   private async getToken() {
     if (this.isTokenValid()) {
       return this.token;
