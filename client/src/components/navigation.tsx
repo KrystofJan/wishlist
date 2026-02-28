@@ -3,43 +3,45 @@ import {
   NavigationMenuItem,
   NavigationMenuLink,
   NavigationMenuList,
+  navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
-import { useAuth } from "@/lib/hooks/useAuth";
 import { Link } from "react-router";
+import Logo from "./logo";
+import { UserKnob } from "./user-knob";
 
 export function NavBar() {
-  const { isAuthenticated } = useAuth();
   return (
-    <div className="flex flex-row justify-between items-center p-4 bg-black">
-      <Link to="/">
-        <h1 className="text-2xl font-bold text-primary">Wishlist app</h1>
-      </Link>
-      <NavigationMenu className="text-foreground max-w-full h-16">
-        <NavigationMenuList>
-          <NavigationMenuItem>
-            <NavigationMenuLink asChild>
-              <Link to="/">Home</Link>
-            </NavigationMenuLink>
-          </NavigationMenuItem>
-          <NavigationMenuItem>
-            <NavigationMenuLink asChild>
-              <Link to="/login">Login</Link>
-            </NavigationMenuLink>
-          </NavigationMenuItem>
-          {!isAuthenticated && (
+    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60">
+      <div className="container mx-auto flex h-16 max-w-5xl items-center justify-between px-4">
+        <Link to="/">
+          <Logo />
+        </Link>
+
+        {/* Center - Navigation Links */}
+        <NavigationMenu className="hidden md:flex">
+          <NavigationMenuList>
             <NavigationMenuItem>
-              <NavigationMenuLink asChild>
-                <Link to="/signup">Signup</Link>
+              <NavigationMenuLink
+                asChild
+                className={navigationMenuTriggerStyle()}
+              >
+                <Link to="/">Home</Link>
               </NavigationMenuLink>
             </NavigationMenuItem>
-          )}
-          <NavigationMenuItem>
-            <NavigationMenuLink asChild>
-              <Link to="/wishlists">Wishlists</Link>
-            </NavigationMenuLink>
-          </NavigationMenuItem>
-        </NavigationMenuList>
-      </NavigationMenu>
-    </div>
+            <NavigationMenuItem>
+              <NavigationMenuLink
+                asChild
+                className={navigationMenuTriggerStyle()}
+              >
+                <Link to="/wishlists">Wishlists</Link>
+              </NavigationMenuLink>
+            </NavigationMenuItem>
+          </NavigationMenuList>
+        </NavigationMenu>
+
+        {/* Right side - User Dropdown */}
+        <UserKnob />
+      </div>
+    </header>
   );
 }

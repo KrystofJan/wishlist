@@ -23,7 +23,6 @@ export function WishlistCard({ wishlist }: WishlistCardProps) {
           className="relative z-20 aspect-video w-full object-cover brightness-60 grayscale dark:brightness-40"
         />
         <CardHeader>
-          <CardAction>aaa</CardAction>
           <CardTitle>{wishlist.name}</CardTitle>
           <CardDescription>{wishlist.description}</CardDescription>
         </CardHeader>

@@ -57,6 +57,7 @@ class ApiClient {
         };
       }
 
+      console.log(endpoint);
       // Send request
       const response = await fetch(`${this.baseUrl}${endpoint}`, {
         ...options,

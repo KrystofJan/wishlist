@@ -14,7 +14,7 @@ export function Router({ children }: RouterProps) {
   return (
     <BrowserRouter>
       {children}
-      <div id="content" className="p-8">
+      <main className="min-h-[calc(100vh-4rem)]">
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
@@ -22,7 +22,7 @@ export function Router({ children }: RouterProps) {
           <Route path="/wishlists" element={<Wishlists />} />
           <Route path="/wishlists/:id" element={<WishlistDetail />} />
         </Routes>
-      </div>
+      </main>
     </BrowserRouter>
   );
 }

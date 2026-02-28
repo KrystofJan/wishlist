@@ -1,12 +1,18 @@
-import { Button } from "@/components/ui/button";
-import { authClient } from "../lib/auth-client";
 import { useState } from "react";
+import { Link } from "react-router";
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { authClient } from "../lib/auth-client";
 
 export default function SignUp() {
   const [email, setEmail] = useState("");
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
   const [loading, setLoading] = useState(false);
@@ -17,7 +23,7 @@ export default function SignUp() {
     setLoading(true);
     setError("");
 
-    const _result = await authClient.signUp.email(
+    await authClient.signUp.email(
       {
         email,
         password,
@@ -25,12 +31,10 @@ export default function SignUp() {
         callbackURL: "/",
       },
       {
-        onRequest: (ctx) => {
-          //show loading
+        onRequest: () => {
           setLoading(true);
         },
         onError: (ctx) => {
-          // display the error message
           setLoading(false);
           setError(ctx.error.message);
         },
@@ -39,43 +43,70 @@ export default function SignUp() {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div className="grid grid-cols-2 gap-4 max-w-max">
-        <Input
-          placeholder="first name"
-          value={firstName}
-          onChange={(event) => setFirstName(event.target.value)}
-        />
+    <div className="container mx-auto flex max-w-5xl flex-col items-center px-4 py-8">
+      <Card className="w-full max-w-md">
+        <CardHeader className="text-center">
+          <span className="mx-auto mb-2 text-4xl">🎁</span>
+          <CardTitle className="text-2xl">Create an account</CardTitle>
+          <CardDescription>
+            Sign up to start creating your wishlists
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+            <div className="flex flex-col gap-2">
+              <label htmlFor="name" className="text-sm font-medium">
+                Name
+              </label>
+              <Input
+                id="name"
+                placeholder="John Doe"
+                value={name}
+                onChange={(event) => setName(event.target.value)}
+              />
+            </div>
 
-        <Input
-          placeholder="last name"
-          value={lastName}
-          onChange={(event) => setLastName(event.target.value)}
-        />
+            <div className="flex flex-col gap-2">
+              <label htmlFor="email" className="text-sm font-medium">
+                Email
+              </label>
+              <Input
+                id="email"
+                type="email"
+                placeholder="you@example.com"
+                value={email}
+                onChange={(event) => setEmail(event.target.value)}
+              />
+            </div>
 
-        <Input
-          placeholder="email"
-          value={email}
-          onChange={(event) => setEmail(event.target.value)}
-        />
+            <div className="flex flex-col gap-2">
+              <label htmlFor="password" className="text-sm font-medium">
+                Password
+              </label>
+              <Input
+                id="password"
+                type="password"
+                placeholder="••••••••"
+                value={password}
+                onChange={(event) => setPassword(event.target.value)}
+              />
+            </div>
 
-        <Input
-          placeholder="name"
-          value={name}
-          onChange={(event) => setName(event.target.value)}
-        />
+            {error && <p className="text-sm text-destructive">{error}</p>}
 
-        <Input
-          placeholder="password"
-          type="password"
-          value={password}
-          onChange={(event) => setPassword(event.target.value)}
-          className="col-span-full"
-        />
-        <Button type="submit">Sign up</Button>
-      </div>
-      {error}
-      {loading}
-    </form>
+            <Button type="submit" className="w-full" disabled={loading}>
+              {loading ? "Creating account..." : "Sign up"}
+            </Button>
+
+            <p className="text-center text-sm text-muted-foreground">
+              Already have an account?{" "}
+              <Link to="/login" className="text-primary hover:underline">
+                Log in
+              </Link>
+            </p>
+          </form>
+        </CardContent>
+      </Card>
+    </div>
   );
 }

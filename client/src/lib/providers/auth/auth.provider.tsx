@@ -71,11 +71,11 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
   const logout = useCallback(async () => {
     await authClient.signOut();
-    setLoading(true);
     setUser(null);
     setToken(null);
     setError(null);
     setIsAuthenticated(false);
+    setLoading(false);
     client.expireToken();
   }, []);
 
