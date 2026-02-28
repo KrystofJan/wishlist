@@ -11,6 +11,7 @@ import { JWTModule } from './auth/jwt.module';
 import { APP_GUARD } from '@nestjs/core';
 import { JWTGuard } from './auth/jwt.guard';
 import { WishlistModule } from './wishlists/wishlists.module';
+import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { WishlistModule } from './wishlists/wishlists.module';
     JWTModule,
     TypeOrmModule.forRoot(dataSourceSettings),
     WishlistModule,
+    UsersModule,
   ],
   providers: [
     {
