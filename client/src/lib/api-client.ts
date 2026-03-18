@@ -1,5 +1,12 @@
 import { authClient } from "./auth-client";
 
+export const HTTPMethod = {
+  POST: "POST",
+  GET: "GET",
+  PUT: "PUT",
+  PATCH: "PATCH",
+} as const;
+
 interface ApiResponse<T = unknown> {
   data?: T;
   error?: string;
@@ -57,8 +64,6 @@ class ApiClient {
         };
       }
 
-      console.log(endpoint);
-      // Send request
       const response = await fetch(`${this.baseUrl}${endpoint}`, {
         ...options,
         headers: {

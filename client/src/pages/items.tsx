@@ -1,23 +1,24 @@
-import type { Wishlist } from "@/lib/types/wishlist";
+import type { Item } from "@/lib/types/item";
 import { client } from "@/lib/api-client";
 import { useEffect, useState } from "react";
 import { Link } from "react-router";
 import { WishlistCard } from "@/components/wishlists/wishlist-card";
 import { Button } from "@/components/ui/button";
+import { ItemCard } from "@/components/items/item-card";
 
-export function Wishlists() {
-  const [wishlists, setWishlists] = useState<Wishlist[]>([]);
+export function Items() {
+  const [items, setItems] = useState<Item[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    async function getWishlists() {
-      const { data } = await client.request<Wishlist[]>("/wishlists");
+    async function getItems() {
+      const { data } = await client.request<Item[]>("/items");
       if (data) {
-        setWishlists(data);
+        setItems(data);
       }
       setLoading(false);
     }
-    getWishlists();
+    getItems();
   }, []);
 
   if (loading) {
@@ -33,27 +34,29 @@ export function Wishlists() {
       {/* Header */}
       <div className="mb-8 flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">My Wishlists</h1>
+          <h1 className="text-3xl font-bold tracking-tight">Items</h1>
           <p className="text-muted-foreground mt-1">
-            Manage and organize your wishlists
+            Manage and organize items
           </p>
         </div>
-        <Button>Create wishlist</Button>
+        <Button asChild>
+          <Link to="/items/create">Create Item</Link>
+        </Button>
       </div>
 
       {/* Wishlists Grid */}
-      {wishlists.length === 0 ? (
+      {items.length === 0 ? (
         <div className="flex flex-col items-center justify-center rounded-lg border border-dashed py-16">
           <span className="mb-4 text-4xl">📝</span>
           <p className="text-muted-foreground mb-4">
-            You don't have any wishlists yet
+            You don{"'"}t have any wishlists yet
           </p>
           <Button>Create your first wishlist</Button>
         </div>
       ) : (
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {wishlists.map((wishlist) => (
-            <WishlistCard wishlist={wishlist} key={wishlist.id} />
+          {items.map((item) => (
+            <ItemCard item={item} key={item.id} />
           ))}
         </div>
       )}
