@@ -17,7 +17,6 @@ function Home() {
 
   useEffect(() => {
     async function getWishlists() {
-      console.log(user.id);
       const { data } = await client.request<Wishlist[]>(
         `/users/${user?.id}/wishlists`,
       );
