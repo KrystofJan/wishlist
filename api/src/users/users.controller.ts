@@ -1,5 +1,6 @@
-import { Controller, Get, Param, ParseIntPipe } from '@nestjs/common';
+import { Controller, Get, Param } from '@nestjs/common';
 import { UsersService } from './users.service';
+import { NotFoundError } from 'rxjs';
 
 @Controller('users')
 export class UsersController {
@@ -7,6 +8,10 @@ export class UsersController {
 
   @Get(':id/wishlists')
   async getUserWishlists(@Param('id') id: string) {
-    return this.usersService.findUsersWishlists(id);
+    const wishlists = await this.usersService.findUsersWishlists(id);
+    if (wishlists === undefined) {
+      throw new NotFoundError(`could not find the user with the ${id} id`);
+    }
+    return wishlists;
   }
 }

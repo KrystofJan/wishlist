@@ -5,7 +5,10 @@ import { DataSource, In, Repository } from 'typeorm';
 import { CreateWishlistDto } from './dto/create-wishlist-dto';
 import { Item } from 'src/items/items.entity';
 import { User } from 'data/entities/User';
-import { WishlistFindParameters } from './wishlists.parameters';
+import {
+  WishlistFindIncludeParameters,
+  WishlistFindMultipleParameters,
+} from './wishlists.parameters';
 
 @Injectable()
 export class WishlistService {
@@ -16,22 +19,51 @@ export class WishlistService {
   ) {}
 
   async findAll(
-    { includeUser, includeItems }: WishlistFindParameters = {
+    {
+      includeUser,
+      includeItems,
+      categories,
+      users,
+    }: WishlistFindMultipleParameters = {
       includeUser: false,
       includeItems: false,
+      categories: [],
+      users: [],
     },
   ): Promise<Wishlist[]> {
+    // TODO: Figure out how to solve the categories condition
+    const condition = { where: {} };
+    if (categories.length > 0) {
+      condition.where = {
+        items: {
+          categories: {
+            id: In(categories),
+          },
+        },
+      };
+    }
+
+    if (users.length > 0) {
+      condition.where = {
+        ...condition.where,
+        user: {
+          id: In(users),
+        },
+      };
+    }
+
     return this.wishlistRepository.find({
       relations: {
         user: includeUser,
         items: includeItems,
       },
+      ...condition,
     });
   }
 
   async findById(
     id: number,
-    { includeUser, includeItems }: WishlistFindParameters = {
+    { includeUser, includeItems }: WishlistFindIncludeParameters = {
       includeUser: false,
       includeItems: false,
     },
