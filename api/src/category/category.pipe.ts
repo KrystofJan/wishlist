@@ -9,8 +9,8 @@ export class CategoryExistsPipe implements PipeTransform {
     if (ids === undefined) {
       return undefined;
     }
-    const idList = ids.split(',').map(Number) || [];
-    // NOTE: After we add cache, we will use it right here, because this is a little too much
+    // Handle both "1,2,3" and ["1", "2", "3"] (repeated params)
+    const idList = (Array.isArray(ids) ? ids : ids.split(',')).map(Number);
     const categories = (await this.categoryService.findByIds(idList)).map(
       (x) => x.id,
     );

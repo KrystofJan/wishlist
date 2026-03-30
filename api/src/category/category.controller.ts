@@ -5,7 +5,6 @@ import {
   Get,
   Param,
   ParseIntPipe,
-  NotFoundException,
 } from '@nestjs/common';
 import { CategoryService } from './category.service';
 import { CreateCategoryDto } from './dto/create-category.dto';
@@ -22,15 +21,6 @@ export class CategoriesController {
   @Get()
   getAll() {
     return this.categoryService.findAll();
-  }
-
-  @Get(':name')
-  async getById(@Param('name') name: string) {
-    const category = await this.categoryService.findByName(name);
-    if (!category) {
-      throw new NotFoundException('Could not find the category');
-    }
-    return category;
   }
 
   @Get(':id/items')
