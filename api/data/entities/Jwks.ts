@@ -1,4 +1,4 @@
-import { Column, Entity, PrimaryColumn } from 'typeorm';
+import { Column, Entity, Index, PrimaryColumn } from 'typeorm';
 
 @Entity('jwks')
 export class Jwks {
@@ -11,10 +11,10 @@ export class Jwks {
   @Column('text', { name: 'privateKey' })
   privateKey!: string;
 
-  @Column('date', { name: 'createdAt' })
+  @Column('datetime', { name: 'createdAt' })
   createdAt!: Date;
 
-  @Column('date', { name: 'expiresAt', nullable: true })
+  @Column('datetime', { name: 'expiresAt', nullable: true })
   expiresAt: Date | null;
 
 }

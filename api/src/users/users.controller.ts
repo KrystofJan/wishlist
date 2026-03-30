@@ -14,4 +14,9 @@ export class UsersController {
     }
     return wishlists;
   }
+
+  @Get()
+  async getUsers() {
+    return this.usersService.findAll();
+  }
 }

@@ -23,4 +23,8 @@ export class UsersService {
     });
     return user;
   }
+
+  async findAll() {
+    return this.userRepository.find();
+  }
 }

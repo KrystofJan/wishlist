@@ -8,6 +8,7 @@ import { WishlistDetail } from "./pages/wishlist-detail";
 import { UnderConstruction } from "./pages/under-construction";
 import { CreateItem } from "./pages/create-item";
 import { Items } from "./pages/items";
+import { Profile } from "./pages/profile";
 
 type RouterProps = {
   children: ReactNode;
@@ -22,6 +23,8 @@ export function Router({ children }: RouterProps) {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
+          <Route path="/profile" element={<Profile />} />
+
           <Route path="/wishlists">
             <Route index element={<Wishlists />} />
             <Route path="/wishlists/:id" element={<WishlistDetail />} />

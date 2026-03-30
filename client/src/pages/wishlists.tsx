@@ -1,9 +1,9 @@
 import type { Wishlist } from "@/lib/types/wishlist";
 import { client } from "@/lib/api-client";
 import { useEffect, useState } from "react";
-import { Link } from "react-router";
 import { WishlistCard } from "@/components/wishlists/wishlist-card";
 import { Button } from "@/components/ui/button";
+import { WishlistFilters } from "@/components/wishlists/wishlist-filters";
 
 export function Wishlists() {
   const [wishlists, setWishlists] = useState<Wishlist[]>([]);
@@ -41,12 +41,14 @@ export function Wishlists() {
         <Button>Create wishlist</Button>
       </div>
 
+      <WishlistFilters />
+
       {/* Wishlists Grid */}
       {wishlists.length === 0 ? (
         <div className="flex flex-col items-center justify-center rounded-lg border border-dashed py-16">
           <span className="mb-4 text-4xl">📝</span>
           <p className="text-muted-foreground mb-4">
-            You don't have any wishlists yet
+            You don{"'"}t have any wishlists yet
           </p>
           <Button>Create your first wishlist</Button>
         </div>

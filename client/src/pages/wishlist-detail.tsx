@@ -1,14 +1,6 @@
 import { client } from "@/lib/api-client";
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router";
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import type { Wishlist } from "@/lib/types/wishlist";
 import {
   WishlistHeader,

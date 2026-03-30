@@ -1,5 +1,5 @@
-import type { Wishlist } from 'src/wishlists/wishlists.entity';
-import { Column, Entity, OneToMany, PrimaryColumn } from 'typeorm';
+import { Column, Entity, Index, OneToMany, PrimaryColumn } from 'typeorm';
+import { Wishlist } from 'src/wishlists/wishlists.entity';
 
 @Entity('user')
 export class User {
@@ -12,18 +12,18 @@ export class User {
   @Column('text', { name: 'email', unique: true })
   email!: string;
 
-  @Column('boolean', { name: 'emailVerified' })
+  @Column('boolean', { name: 'emailVerified', default: false })
   emailVerified!: boolean;
 
   @Column('text', { name: 'image', nullable: true })
   image: string | null;
 
-  @Column('date', { name: 'createdAt' })
+  @Column('datetime', { name: 'createdAt', default: () => 'CURRENT_TIMESTAMP' })
   createdAt!: Date;
 
-  @Column('date', { name: 'updatedAt' })
+  @Column('datetime', { name: 'updatedAt', default: () => 'CURRENT_TIMESTAMP' })
   updatedAt!: Date;
 
-  @OneToMany('Wishlist', 'user')
+  @OneToMany(() => Wishlist, (wishlist) => wishlist.user)
   wishlists?: Wishlist[];
 }

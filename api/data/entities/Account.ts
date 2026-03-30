@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryColumn } from 'typeorm';
+import { Column, Entity, Index, JoinColumn, ManyToOne, PrimaryColumn } from 'typeorm';
+import { User } from './User';
 
 @Entity('account')
 export class Account {
@@ -11,8 +12,13 @@ export class Account {
   @Column('text', { name: 'providerId' })
   providerId!: string;
 
+  @Index('account_userId_idx')
   @Column('text', { name: 'userId' })
   userId!: string;
+
+  @ManyToOne(() => User, { onDelete: 'CASCADE', nullable: false })
+  @JoinColumn({ name: 'userId', referencedColumnName: 'id' })
+  user!: User;
 
   @Column('text', { name: 'accessToken', nullable: true })
   accessToken: string | null;
@@ -23,10 +29,10 @@ export class Account {
   @Column('text', { name: 'idToken', nullable: true })
   idToken: string | null;
 
-  @Column('date', { name: 'accessTokenExpiresAt', nullable: true })
+  @Column('datetime', { name: 'accessTokenExpiresAt', nullable: true })
   accessTokenExpiresAt: Date | null;
 
-  @Column('date', { name: 'refreshTokenExpiresAt', nullable: true })
+  @Column('datetime', { name: 'refreshTokenExpiresAt', nullable: true })
   refreshTokenExpiresAt: Date | null;
 
   @Column('text', { name: 'scope', nullable: true })
@@ -35,10 +41,10 @@ export class Account {
   @Column('text', { name: 'password', nullable: true })
   password: string | null;
 
-  @Column('date', { name: 'createdAt' })
+  @Column('datetime', { name: 'createdAt', default: () => 'CURRENT_TIMESTAMP' })
   createdAt!: Date;
 
-  @Column('date', { name: 'updatedAt' })
+  @Column('datetime', { name: 'updatedAt' })
   updatedAt!: Date;
 
 }

@@ -1,10 +1,12 @@
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
-import { JWTService } from './jwt.service';
+import { JWTService } from './auth.service';
 import { IS_PUBLIC_KEY } from './public.decorator';
 import { Reflector } from '@nestjs/core';
+import { auth } from 'src/lib/auth';
+import { AUTH_OPTIONS } from 'src/lib/constants';
 
 @Injectable()
-export class JWTGuard implements CanActivate {
+export class AuthGuard implements CanActivate {
   constructor(
     private readonly jwtService: JWTService,
     private readonly reflector: Reflector,
@@ -22,6 +24,16 @@ export class JWTGuard implements CanActivate {
       }
 
       const request = context.switchToHttp().getRequest();
+      const apiKey = request.headers[AUTH_OPTIONS.HeaderName];
+      if (apiKey) {
+        const { valid } = await auth.api.verifyApiKey({
+          body: {
+            key: apiKey,
+          },
+        });
+        return valid;
+      }
+
       const idToken = request.headers['authorization']?.split(' ')[1];
       const token = await this.jwtService.verifyToken(idToken);
       if (!token) {
