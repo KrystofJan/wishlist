@@ -2,13 +2,29 @@ import type { Item } from "@/lib/types/item";
 import { client } from "@/lib/api-client";
 import { useEffect, useState } from "react";
 import { Link } from "react-router";
-import { WishlistCard } from "@/components/wishlists/wishlist-card";
 import { Button } from "@/components/ui/button";
 import { ItemCard } from "@/components/items/item-card";
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupButton,
+  InputGroupInput,
+} from "@/components/ui/input-group";
+import { Search } from "lucide-react";
+import { useSearch } from "@/lib/hooks/useFuseSearch";
+import { Separator } from "@/components/ui/separator";
 
 export function Items() {
   const [items, setItems] = useState<Item[]>([]);
   const [loading, setLoading] = useState(true);
+
+  const [search, setSearch] = useState("");
+
+  const searchedItems = useSearch<Item>({
+    data: items,
+    search,
+    keys: ["name", "description"],
+  });
 
   useEffect(() => {
     async function getItems() {
@@ -43,9 +59,25 @@ export function Items() {
           <Link to="/items/create">Create Item</Link>
         </Button>
       </div>
+      <div className="flex">
+        <InputGroup className="w-full bg-background">
+          <InputGroupInput
+            placeholder="Search..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
+          <InputGroupAddon align="inline-end">
+            <InputGroupButton aria-label="Copy" size="icon-xs" disabled>
+              <Search />
+            </InputGroupButton>
+          </InputGroupAddon>
+        </InputGroup>
+      </div>
 
-      {/* Wishlists Grid */}
-      {items.length === 0 ? (
+      <Separator className="my-4" />
+
+      {/* Item Grid */}
+      {searchedItems.length === 0 ? (
         <div className="flex flex-col items-center justify-center rounded-lg border border-dashed py-16">
           <span className="mb-4 text-4xl">📝</span>
           <p className="text-muted-foreground mb-4">
@@ -55,7 +87,7 @@ export function Items() {
         </div>
       ) : (
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {items.map((item) => (
+          {searchedItems.map((item) => (
             <ItemCard item={item} key={item.id} />
           ))}
         </div>

@@ -63,7 +63,14 @@ function Home() {
           ) : (
             <div className="mt-8 flex gap-4">
               <Button size="lg" asChild>
-                <Link to="/wishlists">View My Wishlists</Link>
+                <Link
+                  to={{
+                    pathname: "/wishlists",
+                    search: `?users=${user.id}`,
+                  }}
+                >
+                  View My Wishlists
+                </Link>
               </Button>
             </div>
           )}
