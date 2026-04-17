@@ -52,7 +52,7 @@ export function ApiKeyModal({ refreshKeyCallback }: ApiKeyModalProps) {
   const [copied, setCopied] = useState(false);
 
   const schema = z.object({
-    name: z.string().length(4),
+    name: z.string().min(4).max(25),
     expire: z.coerce.number(),
     expireUnit: z.enum(expirationUnit),
   });
@@ -68,13 +68,7 @@ export function ApiKeyModal({ refreshKeyCallback }: ApiKeyModalProps) {
   });
 
   async function createKey(name: string, expiresIn: number) {
-    console.log({
-      name,
-      expiresIn,
-      prefix: AUTH_CONSTANTS.API_KEY_CONSTANTS.Prefix,
-    });
     if (isAuthenticated) {
-      // TODO: Make this a dialog and use input for the name...
       const { data, error } = await authClient.apiKey.create({
         name,
         expiresIn,
@@ -121,7 +115,6 @@ export function ApiKeyModal({ refreshKeyCallback }: ApiKeyModalProps) {
     await refreshKeyCallback();
   }
 
-  // form.reset()
   const handleCopy = () => {
     if (key) {
       navigator.clipboard.writeText(key);
@@ -134,7 +127,7 @@ export function ApiKeyModal({ refreshKeyCallback }: ApiKeyModalProps) {
     <Dialog>
       <DialogTrigger asChild>
         <Button
-          className="mr-auto"
+          className="flex"
           onClick={() => {
             form.reset();
             setKey(undefined);
@@ -195,8 +188,8 @@ export function ApiKeyModal({ refreshKeyCallback }: ApiKeyModalProps) {
                 )}
               />
             </div>
-            <Button type="submit" disabled={!!key}>
-              Submit
+            <Button className="flex ml-auto" type="submit" disabled={!!key}>
+              Create API key
             </Button>
           </form>
         </Form>
@@ -218,12 +211,6 @@ export function ApiKeyModal({ refreshKeyCallback }: ApiKeyModalProps) {
             </InputGroup>
           </div>
         </Field>
-
-        <DialogFooter>
-          <DialogClose asChild>
-            <Button variant="outline">Cancel</Button>
-          </DialogClose>
-        </DialogFooter>
       </DialogContent>
     </Dialog>
   );

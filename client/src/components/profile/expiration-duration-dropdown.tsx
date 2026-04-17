@@ -24,8 +24,17 @@ export function ExpirationDurationDropdown({
   disabled,
 }: ExpirationDurationDropdownProps) {
   return (
-    <Select name={name} value={value} onValueChange={onChange}>
-      <SelectTrigger id="form-rhf-select-language" className="min-w-[120px]">
+    <Select
+      name={name}
+      value={value}
+      onValueChange={onChange}
+      disabled={disabled}
+    >
+      <SelectTrigger
+        id="form-rhf-select-language"
+        className="min-w-[120px]"
+        onBlur={onBlur}
+      >
         <SelectValue placeholder="Select" />
       </SelectTrigger>
       <SelectContent position="item-aligned">
@@ -36,23 +45,3 @@ export function ExpirationDurationDropdown({
     </Select>
   );
 }
-
-// <Combobox
-//   items={options}
-//   value={value}
-//   onValueChange={onChange}
-//   disabled={disabled}
-//   name={name}
-// >
-//   <ComboboxInput placeholder="Select options" onBlur={onBlur} />
-//   <ComboboxContent>
-//     <ComboboxEmpty>No options found.</ComboboxEmpty>
-//     <ComboboxList>
-//       {(item) => (
-//         <ComboboxItem key={item} value={item}>
-//           {item}
-//         </ComboboxItem>
-//       )}
-//     </ComboboxList>
-//   </ComboboxContent>
-// </Combobox>
